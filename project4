@@ -1,0 +1,102 @@
+Name: P. Rakesh
+Course: Dev0ps
+Trainer: Mr. Madhuka
+Email: rakeshpeddapally369@gmail.com
+Batch No: 105 Timings : 12pm batch
+
+
+P6: Monitor and log application performance. Main objective will be how to collect and analyse
+data about an application's performance
+
+K8S
+t2micro
+apt update -y
+apt install default-jdk -y
+apt install awscli -y
+curl --silent --location
+"https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" |
+tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+eksctl version
+-->>
+curl -LO https://dl.k8s.io/release/v1.21.14/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+>>go to IAM
+create role ec2/lamda
+admistration access
+role name--kube (etc..)
+actions--security--modify IAM role--update iam role
+## Create an EKS cluster with empty node group
+eksctl create cluster --name=rakesh --region=us-west-1 --version 1.24 --zones=us-west-1a,us-west-1b --
+without-nodegroup
+>>here u have to change name resion and zone<<
+go to EKS there u will c a cluster "rakesh"
+## Create & Associate IAM OIDC Provider for our EKS Cluster
+To enable and use AWS IAM roles for Kubernetes service accounts on our EKS cluster, we must create &
+associate OIDC identity provider.
+eksctl utils associate-iam-oidc-provider --region us-west-1 --cluster rakesh --approve
+## Create Node Group with additional Add-Ons in Public Subnets
+It will help us to create IAM policys automatically
+eksctl create nodegroup --cluster=rakesh \
+ --region=us-west-1 \
+ --name=sample-ekscluster-ng-public1 \
+ --node-type=t3.small \
+ --nodes=2 \
+ --nodes-min=2 \
+ --nodes-max=4 \
+ --node-volume-size=8 \
+ --ssh-access \
+ --ssh-public-key=kube8 \
+ --managed \
+ --asg-access \
+ --external-dns-access \
+ --full-ecr-access \
+ --appmesh-access \
+ --alb-ingress-access
+((name region node keypair change the names))
+>>then the instances will created automaticaly as name ((rakesh))
+## Get the config for cluster
+aws eks update-kubeconfig --region us-west-1 --name rakesh
+>>below link at a time
+mkdir prometheus
+cd prometheus
+wget https://github.com/prometheus/prometheus/releases/download/v2.43.0-rc.0/prometheus-2.43.0-
+rc.0.linux-amd64.tar.gz
+tar xvzf prometheus-2.43.0-rc.0.linux-amd64.tar.gz
+mv prometheus-2.43.0-rc.0.linux-amd64 prometheus
+cd prometheus
+./prometheus
+>>public ip:9090
+---->>take a new git bash
+download node exporter
+mkdir nodeexporter
+cd nodeexporter
+wget https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter1.5.0.linux-amd64.tar.gz
+tar -xvzf node_exporter-1.5.0.linux-amd64.tar.gz
+mv node_exporter-1.5.0.linux-amd64 node_exporter
+cd node_exporter
+./node_exporter
+copy the public ip of promothies and paste in new tab :9100
+u will nottice node expoter
+--->>open new gitbash and paste below all link at a time
+sudo apt-get install -y apt-transport-https
+sudo apt-get install -y software-properties-common wget
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+echo "deb https://packages.grafana.com/enterprise/deb stable main" | sudo tee -a
+/etc/apt/sources.list.d/grafana.list
+sudo apt-get update
+sudo apt-get install grafana-enterprise
+sudo systemctl daemon-reload
+sudo systemctl start grafana-server
+sudo systemctl status grafana-server
+sudo systemctl enable grafana-server.service
+--->>public ip:3000 grafana admin admin
+data source---promethies
+locat host--promothies ip
+save and test
+right up arrow--import dash board
+import via grafana.com---15453
+select---prometheus
+import
+

@@ -1,0 +1,32 @@
+Name: P. Rakesh
+Course: Dev0ps
+Trainer: Mr. Madhukar
+Email: rakeshpeddapally369@gmail.com
+Batch No: 105 Timings : 12pm batch
+
+Project3
+Create a simple web server using Docker. Main objective is to containerize an application and deploy it to
+a cloud-based environment.
+
+Sudo -i
+apt update -y
+apt install default-jdk -y
+apt install Docker.io -y
+vi Dockerfile
+FROM nginx:latest
+LABEL maintainer=rakhinani369@gmail.com
+COPY ./index.html /user/share/nginx/html
+EXPOSE 80
+docker build -t devopspro .
+docker images
+docker run --name myc1 -d -p 82:80 devopspro;latest
+docker ps
+docker exec -it <name> /bin/bash ((enter in to container))
+cd /usr/share/nginx/html
+ls
+we will notice index.html
+cat > index.html
+go to rapido website and paste (cntrl+u)
+public ip:82
+page redirect
+

@@ -1,0 +1,112 @@
+Name: P. Rakesh
+Course: Dev0ps
+Trainer: Mr. Madhukar
+Email: rakeshpeddapally369@gmail.com
+Batch No: 105 Timings : 12pm batch
+
+
+P11: Deploy instances on aws by using sample terraform scripts
+create an Ec2 instance "........" t2.micro @ IAM-USERS-"...."administratorAccess-Access key-CLI-tag
+apt update -y
+apt install awscli -y
+( wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o
+/usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg]
+https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee
+/etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install terraform )
+vi sri.tf ( paste provider & resource)
+terraform init
+terraform validate
+terraform plan
+terraform apply
+enter value : yes
+instite will create with name of "rakesh"
+--------------------------------------------------------
+(>>access key
+AKIAV4ZA5LS22CT2AMPY
+secret key
+o3xITqb0VF742ZhPGY6SrIMUagvYSLvY+rfiXf53 <<)
+provider "aws" {
+region = " "
+access_key = "----------------"
+secret_key = "----------------"
+}
+resource "aws_instance" "example" {
+ami ="ami-0f8e81a3da6e2510a"
+instance_type = "t2.micro"
+key_name = "kube8"
+tags = {
+Name = "rakesh"/"sandy"
+}
+}
+--------------------------------------------------------
+provider "aws" {
+region = "------"
+access_key ="------"
+secret_key ="------"
+}
+resource "aws_instance" "example" {
+ami =" "
+instance_type = "------"
+key_name = "------"
+tags = {
+Name = "------"
+}
+}
+---------------------------------------------------
+go to git hub create a repo "------"
+take a new desk
+git clone ....
+ls
+cd "---"
+vi main.tf
+paste above script by another name "sandy"
+git add.
+git commit -m "1st commit"
+git push
+---------------------------------------
+jenkins in new tab "instance type more than t2"
+sudo -i
+apt update -y
+apt install awscli -y
+aws configure
+aws access key--
+aws secret key--
+default region name--
+default output formate--table
+install terraform-- wget -O-....
+publicip:8080
+install pluggin terraform
+The instance created automatically as "sandy"
+pipeline {
+ agent any
+ stages {
+ stage('Clone'){
+ steps{
+ git branch: 'main', url: 'https://github.com/rakhinani369/terra.git'
+ }
+ }
+ stage('terraform init'){
+ steps{
+ sh 'terraform init'
+ }
+ }
+ stage('terraform validate'){
+ steps{
+ sh 'terraform validate'
+ }
+ }
+ stage('terraform plan'){
+ steps{
+ sh 'terraform plan'
+ }
+ }
+ stage('terraform apply'){
+ steps{
+ sh 'terraform apply --auto-approve'
+ }
+ }
+ }
+}
+

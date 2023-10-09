@@ -1,0 +1,44 @@
+Name: P. Rakesh
+Course: Dev0ps
+Trainer: Mr. Madhukar
+Email: rakeshpeddapally369@gmail.com
+Batch No: 105 Timing’s : 12pm batch
+
+P1. Implement a continuous integration/continuous delivery (CI/CD) pipeline. Main objective will
+be how to automate the process oftesting, building, nd deploying an application.
+taxbookingrepo
+
+pipeline {
+ agent any
+ stages {
+ stage('clone') {
+ steps {
+ checkout scmGit(branches: [[name: '*/dev']], extensions: [], userRemoteConfigs: [[url:
+'https://github.com/Venna12/taxi-booking.git']])
+ }
+ }
+ stage('build') {
+ steps {
+ sh'mvn package'
+ }
+ }
+ stage('deploye to development') {
+ steps {
+ deploy adapters: [tomcat9(credentialsId: 'tom', path: '', url: 'http://13.57.8.67:8080/')],
+contextPath: 'developer', war: '**/*.war'
+ }
+ }
+ stage('deploye to test') {
+ steps {
+ input('do you want to proceed?')
+ }
+ }
+ stage('if proceed to clicked') {
+ steps {
+ deploy adapters: [tomcat9(credentialsId: 'tom', path: '', url: 'http://13.57.33.95:8080/')],
+contextPath: 'developer', war: '**/*.war'
+ }
+ }
+ }
+}
+
